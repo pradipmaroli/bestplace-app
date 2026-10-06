@@ -28,21 +28,34 @@ const DEFAULT_LOCATION: SelectedLocation = {
   longitude: -122.4194,
 };
 
-const CATEGORY_OPTIONS = ["coffee", "restaurant", "park", "hospital"] as const;
+const CATEGORY_OPTIONS = [
+  "cafe",
+  "restaurant",
+  "park",
+  "hospital",
+  "temple",
+  "gym",
+  "spa",
+  "landmark",
+] as const;
 
 const PLACE_TYPES: Record<(typeof CATEGORY_OPTIONS)[number], string> = {
-  coffee: "cafe",
+  cafe: "cafe",
   restaurant: "restaurant",
   park: "park",
   hospital: "hospital",
+  temple: "hindu_temple",
+  gym: "gym",
+  spa: "spa",
+  landmark: "tourist_attraction",
 };
 
 export default function HomeScreen() {
   const { width } = useWindowDimensions();
   const columns = width >= 1100 ? 3 : width >= 700 ? 2 : 1;
-  const cardWidth = (width - 40 - (columns - 1) * 12) / columns;
+  const cardWidth = (width - 60 - (columns - 1) * 12) / columns;
   const [category, setCategory] =
-    useState<(typeof CATEGORY_OPTIONS)[number]>("coffee");
+    useState<(typeof CATEGORY_OPTIONS)[number]>("cafe");
   const [selectedLocation, setSelectedLocation] =
     useState<SelectedLocation | null>(null);
   const [locationDraft, setLocationDraft] = useState("");
