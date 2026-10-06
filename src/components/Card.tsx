@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Image,
   Linking,
@@ -14,6 +15,7 @@ type CardProps = {
 };
 
 export default function Card({ place }: CardProps) {
+  const [vote, setVote] = useState<"up" | "down" | null>(null);
   const website = place.website;
   const mapQuery = place.location
     ? `${place.location.latitude},${place.location.longitude}`
@@ -62,6 +64,36 @@ export default function Card({ place }: CardProps) {
           <Text style={styles.mapLinkText}>View on Google Maps</Text>
         </Pressable>
       ) : null}
+
+      <View style={styles.voteRow}>
+        <Pressable
+          accessibilityLabel={`Thumbs up for ${place.name}`}
+          accessibilityRole="button"
+          onPress={() =>
+            setVote((currentVote) => (currentVote === "up" ? null : "up"))
+          }
+          style={[
+            styles.voteButton,
+            vote === "up" && styles.voteButtonActiveUp,
+          ]}
+        >
+          <Text style={styles.voteIcon}>👍</Text>
+        </Pressable>
+
+        <Pressable
+          accessibilityLabel={`Thumbs down for ${place.name}`}
+          accessibilityRole="button"
+          onPress={() =>
+            setVote((currentVote) => (currentVote === "down" ? null : "down"))
+          }
+          style={[
+            styles.voteButton,
+            vote === "down" && styles.voteButtonActiveDown,
+          ]}
+        >
+          <Text style={styles.voteIcon}>👎</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -110,5 +142,37 @@ const styles = StyleSheet.create({
     color: "#00000f",
     fontSize: 13,
     fontWeight: "600",
+  },
+  voteRow: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    gap: 10,
+    marginTop: 12,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: "#d9f5ff",
+  },
+  voteButton: {
+    width: 24,
+    height: 24,
+    borderRadius: 17,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#e7f7ff",
+    borderWidth: 1,
+    borderColor: "#cfeeff",
+  },
+  voteButtonActiveUp: {
+    backgroundColor: "#d1fae5",
+    borderColor: "#86efac",
+  },
+  voteButtonActiveDown: {
+    backgroundColor: "#fee2e2",
+    borderColor: "#fca5a5",
+  },
+  voteIcon: {
+    fontSize: 18,
+    lineHeight: 20,
   },
 });
